@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-drama: 'DM Serif Display', serif;
+  --font-mono: 'Space Mono', monospace;
+  --color-paper: #E8E4DD;
+  --color-signal: #E63B2E;
+  --color-signal-dark: #C42D22;
+  --color-offwhite: #F5F3EE;
+  --color-ink: #111111;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-heading);
+  background-color: var(--color-offwhite);
+  color: var(--color-ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Noise Overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+}
+
+/* Magnetic Button */
+.btn-magnetic {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.btn-magnetic:hover {
+  transform: scale(1.03);
+}
+.btn-magnetic .btn-bg {
+  position: absolute;
+  inset: 0;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.btn-magnetic:hover .btn-bg {
+  transform: translateY(0);
+}
+
+/* Link Lift */
+.link-lift {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.link-lift:hover {
+  transform: translateY(-1px);
+}
+
+/* Hero Gradient */
+.hero-gradient {
+  background: linear-gradient(
+    to top,
+    rgba(17, 17, 17, 0.95) 0%,
+    rgba(17, 17, 17, 0.7) 30%,
+    rgba(17, 17, 17, 0.3) 60%,
+    transparent 100%
+  );
+}
+
+/* Keyframes */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.blink-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-offwhite); }
+::-webkit-scrollbar-thumb { background: var(--color-paper); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-signal); }
+
+/* Selection */
+::selection {
+  background-color: var(--color-signal);
+  color: white;
+}
+
+/* Hero text selection — use a neutral dark highlight so it doesn't clash with white/red text */
+.hero-select ::selection {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: inherit;
+}
+
+/* Phone ring animation */
+@keyframes phone-ring {
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-14deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(6deg); }
+  60% { transform: rotate(0deg); }
+}
+.phone-ring {
+  animation: phone-ring 1.5s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Truck bounce */
+@keyframes truck-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.truck-bounce {
+  animation: truck-bounce 0.4s ease-in-out infinite;
+}
+
+/* Sparkle pulse */
+@keyframes sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+.sparkle {
+  animation: sparkle 1.4s ease-in-out infinite;
+}
