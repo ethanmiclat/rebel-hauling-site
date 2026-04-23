@@ -2,15 +2,36 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
-  Phone, Truck, MapPin, Clock, Shield, ArrowRight, Menu, X, User, ChevronLeft, ChevronRight,
+  Phone, Truck, MapPin, Clock, Shield, ArrowRight, Menu, X, ChevronLeft, ChevronRight,
+  Mail, Quote, Star, Package, Home, Building2, Award,
 } from 'lucide-react';
+
+function InstagramIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M13.5 22v-8.5h2.85l.4-3.3H13.5V8.1c0-.95.27-1.6 1.65-1.6h1.75V3.55c-.3-.04-1.35-.13-2.55-.13-2.55 0-4.3 1.55-4.3 4.4v2.38H7.2v3.3h2.85V22h3.45z" />
+    </svg>
+  );
+}
 
 gsap.registerPlugin(ScrollTrigger);
 
 const C = {
   paper: '#E8E4DD',
-  signal: '#E63B2E',
-  signalDark: '#C42D22',
+  signal: '#CC1F2C',
+  signalDark: '#9C121C',
+  navy: '#1E3A5F',
+  navyDark: '#142947',
   offwhite: '#F5F3EE',
   ink: '#111111',
 };
@@ -46,6 +67,7 @@ function Navbar() {
     { label: 'Services', href: '#services' },
     { label: 'About', href: '#about' },
     { label: 'How It Works', href: '#protocol' },
+    { label: 'Reviews', href: '#testimonials' },
     { label: 'Pricing', href: '#pricing' },
   ];
 
@@ -54,19 +76,18 @@ function Navbar() {
 
   return (
     <nav
-      className={`fixed top-4 left-1/2 z-50 -translate-x-1/2 rounded-[2rem] px-6 py-3 transition-all duration-500 ${
-        scrolled
-          ? 'border border-[#E8E4DD] bg-[#F5F3EE]/90 shadow-lg backdrop-blur-xl'
-          : 'border border-white/10 bg-black/40 backdrop-blur-md'
-      }`}
+      className={`fixed top-4 left-1/2 z-50 -translate-x-1/2 rounded-[2rem] px-6 py-3 transition-all duration-500 ${scrolled
+        ? 'border border-[#E8E4DD] bg-[#F5F3EE]/90 shadow-lg backdrop-blur-xl'
+        : 'border border-white/10 bg-black/40 backdrop-blur-md'
+        }`}
       style={{ maxWidth: '90vw' }}
     >
-      <div className="flex items-center gap-8">
-        <a href="#" className="whitespace-nowrap text-lg font-bold tracking-tight font-heading" style={{ color: textColor }}>
-          REBEL HAULING
+      <div className="flex items-center gap-6">
+        <a href="#" className="flex items-center">
+          <img src="/Logo.png" alt="Rebel Hauling" className="h-11 w-auto" />
         </a>
 
-        <div className="hidden items-center gap-6 md:flex">
+        <div className="hidden items-center gap-5 md:flex">
           {links.map((l) => (
             <a key={l.label} href={l.href} className="link-lift whitespace-nowrap text-sm font-medium tracking-tight" style={{ color: linkColor }}>
               {l.label}
@@ -165,9 +186,9 @@ function Hero() {
 function ShufflerCard() {
   const [order, setOrder] = useState([0, 1, 2]);
   const labels = [
-    { title: 'Quarter Load', price: '$75 – $125', desc: 'Small cleanouts & single items' },
-    { title: 'Half Load', price: '$150 – $250', desc: 'Garage cleanouts & furniture sets' },
-    { title: 'Full Load', price: '$300 – $450', desc: 'Full property & renovation debris' },
+    { title: 'Quarter Load', price: '$215', desc: 'Small cleanouts & single items' },
+    { title: 'Half Load', price: '$345', desc: 'Garage cleanouts & furniture sets' },
+    { title: 'Full Load', price: '$595', desc: 'Full property & renovation debris' },
   ];
 
   useEffect(() => {
@@ -193,7 +214,7 @@ function ShufflerCard() {
                 <span className="text-sm font-bold text-ink font-heading">{labels[idx].title}</span>
                 <span className="mt-1 block text-xs text-ink/40">{labels[idx].desc}</span>
               </div>
-              <span className="text-lg font-bold font-mono" style={{ color: C.signal }}>{labels[idx].price}</span>
+              <span className="text-lg font-bold font-mono" style={{ color: C.navy }}>{labels[idx].price}</span>
             </div>
           </div>
         ))}
@@ -202,159 +223,117 @@ function ShufflerCard() {
   );
 }
 
-function TypewriterCard() {
-  const [lines, setLines] = useState([]);
-  const [currentText, setCurrentText] = useState('');
-  const msgIdx = useRef(0);
-  const charIdx = useRef(0);
+function TrustCard() {
+  const stats = [
+    { icon: Star, label: '5-Star Rated', value: '100%', sub: 'customer satisfaction' },
+    { icon: Clock, label: 'Same-Day Service', value: '24h', sub: 'typical response' },
+    { icon: Award, label: 'Years Combined', value: '5+', sub: 'operator experience' },
+  ];
+  const [active, setActive] = useState(0);
 
   useEffect(() => {
-    const messages = [
-      '\u25b8 Pickup confirmed — 2.4mi away',
-      '\u25b8 Crew en route — ETA 18 min',
-      '\u25b8 On-site — loading half truck',
-      '\u25b8 Haul complete — 47 min total',
-      '\u25b8 Invoice sent — $185.00',
-      '\u25b8 5-star review received',
-      '\u25b8 Next booking: tomorrow 9am',
-      '\u25b8 Route optimized — 3 stops today',
-    ];
-    const id = setInterval(() => {
-      const msg = messages[msgIdx.current % messages.length];
-      if (charIdx.current <= msg.length) {
-        setCurrentText(msg.slice(0, charIdx.current));
-        charIdx.current++;
-      } else {
-        setLines((prev) => [...prev.slice(-4), msg]);
-        setCurrentText('');
-        charIdx.current = 0;
-        msgIdx.current++;
-      }
-    }, 50);
+    const id = setInterval(() => setActive((a) => (a + 1) % stats.length), 2800);
     return () => clearInterval(id);
   }, []);
 
   return (
     <div className="rounded-[2rem] border border-paper bg-offwhite p-8">
-      <div className="mb-4 flex items-center gap-2">
-        <div className="h-2 w-2 rounded-full pulse-dot" style={{ backgroundColor: C.signal }} />
-        <span className="text-xs tracking-wide font-mono" style={{ color: C.signal }}>LIVE FEED</span>
-      </div>
       <p className="text-xl font-bold tracking-tight text-ink font-heading">Fast &amp; Reliable</p>
       <p className="mt-1 text-sm text-ink/50">Multi-year operators. Same-day service available.</p>
-      <div className="mt-4 overflow-hidden rounded-[1rem] bg-ink p-4 text-xs leading-6 text-green-400 font-mono" style={{ height: 160 }}>
-        {lines.map((line, i) => (<div key={i} className="opacity-40">{line}</div>))}
-        <div>
-          {currentText}
-          <span className="blink-cursor ml-0.5 inline-block h-3 w-2 align-middle" style={{ backgroundColor: C.signal }} />
-        </div>
+      <div className="mt-6 space-y-2.5" style={{ height: 230 }}>
+        {stats.map((s, i) => {
+          const isActive = i === active;
+          const Icon = s.icon;
+          return (
+            <div
+              key={s.label}
+              className="flex items-center gap-4 rounded-[1.25rem] border p-3"
+              style={{
+                backgroundColor: isActive ? C.ink : '#fff',
+                borderColor: isActive ? C.ink : C.paper,
+                transform: isActive ? 'translateX(6px)' : 'translateX(0)',
+                transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              }}
+            >
+              <div
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.75rem]"
+                style={{ backgroundColor: isActive ? C.signal : C.paper, transition: 'background-color 0.5s' }}
+              >
+                <Icon size={18} style={{ color: isActive ? '#fff' : C.ink }} />
+              </div>
+              <div className="flex flex-1 items-center justify-between gap-2">
+                <div>
+                  <div className="text-sm font-bold font-heading" style={{ color: isActive ? '#fff' : C.ink, transition: 'color 0.5s' }}>
+                    {s.label}
+                  </div>
+                  <div className="text-[11px]" style={{ color: isActive ? 'rgba(255,255,255,0.5)' : 'rgba(17,17,17,0.45)', transition: 'color 0.5s' }}>
+                    {s.sub}
+                  </div>
+                </div>
+                <span className="text-base font-bold font-mono" style={{ color: isActive ? C.signal : C.navy, transition: 'color 0.5s' }}>
+                  {s.value}
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 }
 
-/* Scheduler card — cursor uses refs for accurate alignment */
-function SchedulerCard() {
-  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const [activeDay, setActiveDay] = useState(null);
-  const [cursorPos, setCursorPos] = useState({ x: -30, y: -30 });
-  const [cursorVisible, setCursorVisible] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const cycleRef = useRef(0);
-  const dayRefs = useRef([]);
-  const saveRef = useRef(null);
-  const containerRef = useRef(null);
+/* Scope card — "No project too big or small" */
+function ScopeCard() {
+  const scopes = [
+    { icon: Package, label: 'Single Items', desc: 'Furniture, appliances, one-offs' },
+    { icon: Home, label: 'Residential', desc: 'Garages, basements, estate cleanouts' },
+    { icon: Building2, label: 'Commercial', desc: 'Office clearouts, renovation debris' },
+  ];
+  const [active, setActive] = useState(0);
 
   useEffect(() => {
-    let timeouts = [];
-
-    const getPos = (el) => {
-      if (!el || !containerRef.current) return { x: 0, y: 0 };
-      const cRect = containerRef.current.getBoundingClientRect();
-      const eRect = el.getBoundingClientRect();
-      return {
-        x: eRect.left - cRect.left + eRect.width / 2,
-        y: eRect.top - cRect.top + eRect.height / 2,
-      };
-    };
-
-    const runCycle = () => {
-      const dayIdx = cycleRef.current % 7;
-      setCursorVisible(true);
-      setSaved(false);
-      setActiveDay(null);
-
-      timeouts = [
-        setTimeout(() => {
-          const pos = getPos(dayRefs.current[dayIdx]);
-          setCursorPos(pos);
-        }, 300),
-        setTimeout(() => setActiveDay(dayIdx), 900),
-        setTimeout(() => {
-          const pos = getPos(saveRef.current);
-          setCursorPos(pos);
-        }, 1500),
-        setTimeout(() => setSaved(true), 2100),
-        setTimeout(() => setCursorVisible(false), 2600),
-      ];
-      cycleRef.current++;
-    };
-
-    // Small delay so refs are measured after layout
-    const startTimeout = setTimeout(runCycle, 100);
-    const interval = setInterval(runCycle, 4000);
-    return () => {
-      clearTimeout(startTimeout);
-      clearInterval(interval);
-      timeouts.forEach(clearTimeout);
-    };
+    const id = setInterval(() => setActive((a) => (a + 1) % scopes.length), 2600);
+    return () => clearInterval(id);
   }, []);
+
+  const current = scopes[active];
+  const Icon = current.icon;
 
   return (
     <div className="rounded-[2rem] border border-paper bg-offwhite p-8">
-      <p className="text-xl font-bold tracking-tight text-ink font-heading">Dual Service Area</p>
-      <p className="mt-1 text-sm text-ink/50">Serving Lafayette County, MS &amp; Greene County, MO.</p>
-      <div ref={containerRef} className="relative mt-4 rounded-[1.5rem] border border-paper bg-white p-4" style={{ height: 160 }}>
-        <div className="mb-4 flex justify-center gap-2">
-          {days.map((d, i) => (
+      <p className="text-xl font-bold tracking-tight text-ink font-heading">No Project Too Big or Small</p>
+      <p className="mt-1 text-sm text-ink/50">From a single chair to a full estate clearout.</p>
+
+      <div className="relative mt-6 overflow-hidden rounded-[1.5rem] border border-paper bg-white p-6" style={{ height: 160 }}>
+        <div className="mb-5 flex items-center gap-2">
+          {scopes.map((_, i) => (
             <div
               key={i}
-              ref={(el) => (dayRefs.current[i] = el)}
-              className="flex h-9 w-9 items-center justify-center rounded-[0.75rem] border text-xs font-bold transition-all duration-300 font-mono"
+              className="h-1.5 flex-1 rounded-full"
               style={{
-                backgroundColor: activeDay === i ? C.signal : 'transparent',
-                color: activeDay === i ? '#fff' : C.ink,
-                borderColor: activeDay === i ? C.signal : C.paper,
-                transform: activeDay === i ? 'scale(0.95)' : 'scale(1)',
+                backgroundColor: i <= active ? C.signal : C.paper,
+                transition: 'background-color 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
               }}
-            >
-              {d}
-            </div>
+            />
           ))}
         </div>
-        <div className="flex justify-center">
+
+        <div className="flex items-center gap-4">
           <div
-            ref={saveRef}
-            className="rounded-[2rem] px-6 py-2 text-xs font-bold transition-all duration-300 font-mono"
-            style={{ backgroundColor: saved ? C.signal : C.paper, color: saved ? '#fff' : C.ink }}
+            key={`i-${active}`}
+            className="scope-pop flex h-14 w-14 shrink-0 items-center justify-center rounded-[1rem]"
+            style={{ backgroundColor: C.navy }}
           >
-            {saved ? '\u2713 Scheduled' : 'Save Pickup'}
+            <Icon size={26} className="text-white" />
           </div>
+          <div key={`t-${active}`} className="scope-fade">
+            <div className="text-base font-bold text-ink font-heading">{current.label}</div>
+            <div className="text-xs text-ink/50">{current.desc}</div>
+          </div>
+          <span className="ml-auto text-[10px] font-bold tracking-widest font-mono" style={{ color: C.signal }}>
+            {String(active + 1).padStart(2, '0')}/{String(scopes.length).padStart(2, '0')}
+          </span>
         </div>
-        <svg
-          className="pointer-events-none absolute transition-all duration-500"
-          style={{
-            left: cursorPos.x,
-            top: cursorPos.y,
-            opacity: cursorVisible ? 1 : 0,
-            width: 20,
-            height: 24,
-          }}
-          viewBox="0 0 20 24"
-          fill="none"
-        >
-          <path d="M3 1L17 12L10 13L13 22L9 23L6 14L1 18L3 1Z" fill={C.ink} stroke={C.offwhite} strokeWidth="1" />
-        </svg>
       </div>
     </div>
   );
@@ -376,16 +355,16 @@ function Features() {
     <section id="services" ref={ref} className="px-6 py-24 md:px-16 md:py-32">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12">
-          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.signal }}>What We Do</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink font-heading md:text-5xl">
+          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>What We Do</span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight font-heading md:text-5xl" style={{ color: C.navy }}>
             Services built for<br />
             <span className="italic font-drama" style={{ color: C.signal }}>real people.</span>
           </h2>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
           <div className="feature-card invisible"><ShufflerCard /></div>
-          <div className="feature-card invisible"><TypewriterCard /></div>
-          <div className="feature-card invisible"><SchedulerCard /></div>
+          <div className="feature-card invisible"><TrustCard /></div>
+          <div className="feature-card invisible"><ScopeCard /></div>
         </div>
       </div>
     </section>
@@ -415,7 +394,7 @@ function AboutUs() {
       <div className="relative z-10 mx-auto max-w-5xl">
         {/* Header */}
         <div className="about-anim invisible mb-8">
-          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.signal }}>About Us</span>
+          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>About Us</span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-white font-heading md:text-5xl">
             Who we{' '}
             <span className="italic font-drama" style={{ color: C.signal }}>are.</span>
@@ -430,16 +409,28 @@ function AboutUs() {
         {/* Founders */}
         <div className="about-anim invisible mt-16 grid gap-8 sm:grid-cols-2">
           {[
-            { name: 'Ethan Harris', role: 'Founder' },
-            { name: 'Kane Snider', role: 'Co-Founder' },
+            {
+              name: 'Ethan Harris',
+              role: 'Founder, CEO',
+              img: '/EthanHarris.png',
+              pos: 'center 40%',
+              bio: 'Born and raised in Springfield, Missouri, attending the University of Mississippi pursuing a degree in Entrepreneurship within the School of Business. Previous experience both running and working for a hauling company, as well as jobs in moving and produce. Actively exploring new strategies to make business efficient and seamless!',
+            },
+            {
+              name: 'Kane Snider',
+              role: 'Co-Founder',
+              img: '/KaneSnider.png',
+              pos: 'center 40%',
+              bio: 'From Springfield, Missouri. I am a Sophomore at the University of Mississippi studying for a degree in Finance. Prior experience working and managing a junk removal company, as well as a job in professional moving. I specialize in business marketing and communications!',
+            },
           ].map((person) => (
             <div key={person.name} className="flex flex-col items-center rounded-[2rem] border border-white/10 p-8 text-center" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
-              {/* Headshot placeholder */}
-              <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full border-2 border-white/10 bg-white/5">
-                <User size={48} className="text-white/20" />
+              <div className="mb-6 h-36 w-36 overflow-hidden rounded-full border-2" style={{ borderColor: C.signal }}>
+                <img src={person.img} alt={person.name} className="h-full w-full object-cover" style={{ objectPosition: person.pos }} />
               </div>
               <h3 className="text-xl font-bold text-white font-heading">{person.name}</h3>
-              <p className="mt-1 text-sm font-mono" style={{ color: C.signal }}>{person.role}</p>
+              <p className="mt-1 text-sm font-mono" style={{ color: '#6EA8DB' }}>{person.role}</p>
+              <p className="mt-4 text-sm leading-relaxed text-white/60 font-heading">{person.bio}</p>
             </div>
           ))}
         </div>
@@ -463,9 +454,14 @@ function PhoneRingAnimation() {
           <div className="absolute h-32 w-32 rounded-full border opacity-10 pulse-dot" style={{ borderColor: C.signal, animationDelay: '0.3s' }} />
         </div>
         {/* Phone icon */}
-        <div className="phone-ring flex h-16 w-16 items-center justify-center rounded-[1.25rem]" style={{ backgroundColor: C.signal }}>
+        <a
+          href="tel:6625971268"
+          aria-label="Call Rebel Hauling"
+          className="phone-ring flex h-16 w-16 items-center justify-center rounded-[1.25rem] transition-transform hover:scale-105"
+          style={{ backgroundColor: C.signal }}
+        >
           <Phone size={28} className="text-white" />
-        </div>
+        </a>
       </div>
     </div>
   );
@@ -597,64 +593,67 @@ function Protocol() {
   return (
     <section id="protocol" ref={ref} className="py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6 md:px-16">
-        <div className="mb-12 flex items-end justify-between">
-          <div>
-            <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.signal }}>How It Works</span>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink font-heading md:text-5xl">
-              Three steps to<br />
-              <span className="italic font-drama" style={{ color: C.signal }}>empty space.</span>
-            </h2>
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={goPrev}
-              className="btn-magnetic flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors duration-300"
-              style={{ borderColor: C.paper, color: C.ink }}
-              aria-label="Previous step"
-            >
-              <ChevronLeft size={20} className="relative z-10" />
-            </button>
-            <button
-              onClick={goNext}
-              className="btn-magnetic flex h-12 w-12 items-center justify-center rounded-full text-white transition-colors duration-300"
-              style={{ backgroundColor: C.signal }}
-              aria-label="Next step"
-            >
-              <ChevronRight size={20} className="relative z-10" />
-            </button>
-          </div>
+        <div className="mb-12 text-center">
+          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>How It Works</span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight font-heading md:text-5xl" style={{ color: C.navy }}>
+            Three steps to{' '}
+            <span className="italic font-drama" style={{ color: C.signal }}>empty space.</span>
+          </h2>
         </div>
 
-        <div className="protocol-section invisible overflow-hidden rounded-[2rem] border border-paper bg-offwhite">
-          <div
-            className="flex transition-transform duration-600"
-            style={{
-              transform: `translateX(-${activeStep * 100}%)`,
-              transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            }}
+        <div className="flex items-center justify-center gap-4 md:gap-8">
+          {/* Left arrow */}
+          <button
+            onClick={goPrev}
+            className="btn-magnetic flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 md:h-14 md:w-14"
+            style={{ borderColor: C.paper, color: C.ink, backgroundColor: '#fff' }}
+            aria-label="Previous step"
           >
-            {STEPS.map((s) => (
-              <div key={s.num} className="flex w-full shrink-0 flex-col items-center gap-8 p-8 md:flex-row md:p-12">
-                <div className="flex-1">
-                  <span className="text-sm tracking-wider font-mono" style={{ color: C.signal }}>{s.num}</span>
-                  <h3 className="mt-2 mb-4 text-2xl font-bold tracking-tight text-ink font-heading md:text-4xl">{s.title}</h3>
-                  <p className="max-w-md text-base leading-relaxed text-ink/60">{s.desc}</p>
+            <ChevronLeft size={22} />
+          </button>
+
+          {/* Square card */}
+          <div className="protocol-section invisible relative w-full max-w-[520px] overflow-hidden rounded-[2rem] border border-paper bg-offwhite" style={{ aspectRatio: '1 / 1' }}>
+            <div
+              className="flex h-full"
+              style={{
+                transform: `translateX(-${activeStep * 100}%)`,
+                transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              }}
+            >
+              {STEPS.map((s) => (
+                <div key={s.num} className="flex h-full w-full shrink-0 flex-col items-center justify-between gap-4 p-8 md:p-10">
+                  <div className="w-full text-center">
+                    <span className="text-xs tracking-widest font-mono" style={{ color: C.signal }}>STEP {s.num}</span>
+                    <h3 className="mt-2 text-2xl font-bold tracking-tight font-heading md:text-3xl" style={{ color: C.navy }}>{s.title}</h3>
+                  </div>
+                  <div className="flex flex-1 items-center justify-center">
+                    <s.Anim />
+                  </div>
+                  <p className="max-w-sm text-center text-sm leading-relaxed text-ink/60 md:text-base">{s.desc}</p>
                 </div>
-                <div className="flex h-48 w-full items-center justify-center md:w-64">
-                  <s.Anim />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {/* Right arrow */}
+          <button
+            onClick={goNext}
+            className="btn-magnetic flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white md:h-14 md:w-14"
+            style={{ backgroundColor: C.signal }}
+            aria-label="Next step"
+          >
+            <ChevronRight size={22} />
+          </button>
         </div>
 
         {/* Step indicators */}
-        <div className="mt-6 flex justify-center gap-2">
+        <div className="mt-8 flex justify-center gap-2">
           {STEPS.map((_, i) => (
             <button
               key={i}
               onClick={() => setActiveStep(i)}
-              className="h-2 rounded-full transition-all duration-400"
+              className="h-2 rounded-full"
               style={{
                 width: activeStep === i ? 32 : 8,
                 backgroundColor: activeStep === i ? C.signal : C.paper,
@@ -672,18 +671,265 @@ function Protocol() {
 /* ═══════════════════════════════════════════
    PRICING
    ═══════════════════════════════════════════ */
-const TIERS = [
-  { name: 'Quarter Load', price: '$75–$125', desc: 'Perfect for small cleanouts', features: ['Single item removal', 'Small garage cleanout', 'Dorm move-out essentials', 'Same-day available'], primary: false },
-  { name: 'Half Load', price: '$150–$250', desc: 'Our most popular option', features: ['Furniture sets & appliances', 'Full room cleanouts', 'Estate sale leftovers', 'Loading & disposal included'], primary: true },
-  { name: 'Full Load', price: '$300–$450', desc: 'For major cleanouts & renovations', features: ['Full property clearouts', 'Renovation & construction debris', 'Commercial cleanouts', 'Priority scheduling'], primary: false },
+/* ═══════════════════════════════════════════
+   TESTIMONIALS
+   ═══════════════════════════════════════════ */
+const REVIEWS = [
+  {
+    quote: 'They came ahead of time and worked past their scheduled visit. Great seeing people do what they say they’ll do and then some.',
+    name: 'J White',
+  },
+  {
+    quote: 'Rebel Hauling was a tremendous help in getting many items needed for a big event moved all in one trip. The workers were efficient and helpful!',
+    name: 'VP Ole Miss Alpha Phi',
+  },
+  {
+    quote: 'Since my husband passed away, I am faced with the task of moving a lot of items that I simply cannot move. Rebel Hauling made it easy for me. I can’t thank them enough.',
+    name: 'Jenny R.',
+  },
+];
+
+function Testimonials() {
+  const ref = useRef(null);
+  const formWrapRef = useRef(null);
+  const formInnerRef = useRef(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [name, setName] = useState('');
+  const [testimony, setTestimony] = useState('');
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.review-card', { y: 40, autoAlpha: 0 }, {
+        y: 0, autoAlpha: 1, stagger: 0.15, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: ref.current, start: 'top 80%' },
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    const wrap = formWrapRef.current;
+    const inner = formInnerRef.current;
+    if (!wrap || !inner) return;
+    gsap.killTweensOf([wrap, inner]);
+    if (formOpen) {
+      const h = inner.offsetHeight;
+      gsap.fromTo(
+        wrap,
+        { height: 0, autoAlpha: 0 },
+        { height: h, autoAlpha: 1, duration: 0.55, ease: 'power3.out',
+          onComplete: () => gsap.set(wrap, { height: 'auto' }) },
+      );
+      gsap.fromTo(
+        inner,
+        { y: -16 },
+        { y: 0, duration: 0.55, ease: 'power3.out' },
+      );
+    } else {
+      gsap.to(wrap, {
+        height: 0, autoAlpha: 0, duration: 0.4, ease: 'power2.inOut',
+      });
+    }
+  }, [formOpen]);
+
+  const handleSend = (e) => {
+    e.preventDefault();
+    const starLine = rating > 0 ? `${'★'.repeat(rating)}${'☆'.repeat(5 - rating)} (${rating}/5)` : 'No rating provided';
+    const body = `Rating: ${starLine}\n\nName: ${name || '(not provided)'}\n\nTestimonial:\n${testimony}`;
+    const subject = 'Testimonial';
+    window.location.href = `mailto:Contact@RebelHauling.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  return (
+    <section id="testimonials" ref={ref} className="px-6 py-24 md:px-16 md:py-32" style={{ backgroundColor: C.offwhite }}>
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-12 text-center">
+          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>Testimonials</span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight font-heading md:text-5xl" style={{ color: C.navy }}>
+            What our{' '}
+            <span className="italic font-drama" style={{ color: C.signal }}>customers</span>
+            {' '}say.
+          </h2>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {REVIEWS.map((r) => (
+            <div
+              key={r.name}
+              className="review-card invisible flex flex-col rounded-[2rem] border bg-white p-8"
+              style={{ borderColor: C.paper }}
+            >
+              <Quote size={28} style={{ color: C.signal }} className="mb-4 shrink-0" />
+              <p className="flex-1 text-base leading-relaxed text-ink/80 font-heading">
+                &ldquo;{r.quote}&rdquo;
+              </p>
+              <div className="mt-6 border-t pt-4" style={{ borderColor: C.paper }}>
+                <div className="mb-1 flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={12} fill={C.signal} color={C.signal} />
+                  ))}
+                </div>
+                <p className="text-sm font-bold font-heading" style={{ color: C.navy }}>
+                  {r.name}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Submit Your Own Testimonial */}
+        <div className="mt-16 flex flex-col items-center">
+          <button
+            type="button"
+            onClick={() => setFormOpen((v) => !v)}
+            aria-expanded={formOpen}
+            className="btn-magnetic inline-flex items-center gap-2 rounded-[2rem] px-8 py-4 text-sm font-bold text-white"
+            style={{ backgroundColor: C.navy }}
+          >
+            {formOpen ? 'Hide Form' : 'Share Your Experience'}
+            <ChevronRight
+              size={16}
+              style={{
+                transform: formOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              }}
+            />
+          </button>
+
+          <div
+            ref={formWrapRef}
+            className="w-full max-w-2xl overflow-hidden"
+            style={{ height: 0, opacity: 0, visibility: 'hidden' }}
+          >
+            <form
+              ref={formInnerRef}
+              onSubmit={handleSend}
+              className="mt-6 w-full rounded-[2rem] border bg-white p-8 md:p-10"
+              style={{ borderColor: C.paper }}
+            >
+              <div className="mb-6 flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-2xl font-bold font-heading" style={{ color: C.navy }}>
+                    Submit a Testimonial
+                  </h3>
+                  <p className="mt-1 text-sm text-ink/50 font-heading">
+                    Tell us how we did — we&rsquo;d love to hear from you.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFormOpen(false)}
+                  aria-label="Close form"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border"
+                  style={{ borderColor: C.paper, color: C.ink }}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Rating */}
+              <div className="mb-6">
+                <label className="mb-2 block text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>
+                  Your Rating
+                </label>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((n) => {
+                    const filled = (hoverRating || rating) >= n;
+                    return (
+                      <button
+                        key={n}
+                        type="button"
+                        onClick={() => setRating(n)}
+                        onMouseEnter={() => setHoverRating(n)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        aria-label={`${n} star${n > 1 ? 's' : ''}`}
+                        className="transition-transform hover:scale-110"
+                      >
+                        <Star
+                          size={32}
+                          fill={filled ? C.signal : 'none'}
+                          color={filled ? C.signal : '#C7C3BC'}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Name */}
+              <div className="mb-5">
+                <label htmlFor="t-name" className="mb-2 block text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>
+                  Your Name
+                </label>
+                <input
+                  id="t-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  placeholder="e.g. Alex M."
+                  className="w-full rounded-[1rem] border px-4 py-3 text-sm font-heading outline-none transition-colors focus:border-navy"
+                  style={{ borderColor: C.paper, backgroundColor: C.offwhite, color: C.ink }}
+                />
+              </div>
+
+              {/* Testimony */}
+              <div className="mb-6">
+                <label htmlFor="t-body" className="mb-2 block text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>
+                  Your Testimonial
+                </label>
+                <textarea
+                  id="t-body"
+                  value={testimony}
+                  onChange={(e) => setTestimony(e.target.value)}
+                  required
+                  rows={5}
+                  placeholder="Tell us about your experience with Rebel Hauling..."
+                  className="w-full resize-none rounded-[1rem] border px-4 py-3 text-sm font-heading outline-none transition-colors focus:border-navy"
+                  style={{ borderColor: C.paper, backgroundColor: C.offwhite, color: C.ink }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="btn-magnetic inline-flex w-full items-center justify-center gap-2 rounded-[2rem] px-6 py-4 text-sm font-bold text-white sm:w-auto"
+                style={{ backgroundColor: C.signal }}
+              >
+                <Mail size={16} />
+                Send Testimonial
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const PRICE_TIERS = [
+  { label: 'MIN', price: 105 },
+  { label: '1/8', price: 135 },
+  { label: '1/6', price: 160 },
+  { label: '1/4', price: 215 },
+  { label: '1/3', price: 265 },
+  { label: '3/8', price: 305 },
+  { label: '1/2', price: 345, popular: true },
+  { label: '5/8', price: 400 },
+  { label: '2/3', price: 445 },
+  { label: '3/4', price: 490 },
+  { label: '5/6', price: 535 },
+  { label: '7/8', price: 565 },
+  { label: 'FULL', price: 595 },
 ];
 
 function Pricing() {
   const ref = useRef(null);
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.pricing-card', { y: 50, autoAlpha: 0 }, {
-        y: 0, autoAlpha: 1, stagger: 0.15, duration: 0.8, ease: 'power3.out',
+      gsap.fromTo('.pricing-anim', { y: 40, autoAlpha: 0 }, {
+        y: 0, autoAlpha: 1, stagger: 0.08, duration: 0.6, ease: 'power3.out',
         scrollTrigger: { trigger: ref.current, start: 'top 75%' },
       });
     }, ref);
@@ -692,48 +938,69 @@ function Pricing() {
 
   return (
     <section id="pricing" ref={ref} className="px-6 py-24 md:px-16 md:py-32">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
-          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.signal }}>Pricing</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink font-heading md:text-5xl">
+          <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>Pricing</span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight font-heading md:text-5xl" style={{ color: C.navy }}>
             Priced by the{' '}
             <span className="italic font-drama" style={{ color: C.signal }}>load.</span>
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-base text-ink/50">
+          <p className="mx-auto mt-3 max-w-lg text-base text-ink/50">
             No hidden fees, no hourly rates. Just honest pricing based on how much space your stuff takes in our truck.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {TIERS.map((tier) => (
-            <div key={tier.name} className={`pricing-card invisible relative rounded-[2rem] border p-8 ${tier.primary ? 'scale-[1.02]' : ''}`} style={{
-              backgroundColor: tier.primary ? C.ink : C.offwhite,
-              borderColor: tier.primary ? C.ink : C.paper,
-              ...(tier.primary ? { boxShadow: `0 0 0 2px ${C.signal}` } : {}),
-            }}>
-              {tier.primary && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-[2rem] px-4 py-1 text-xs font-bold text-white font-mono" style={{ backgroundColor: C.signal }}>MOST POPULAR</span>
-              )}
-              <h3 className="text-xl font-bold tracking-tight font-heading" style={{ color: tier.primary ? '#fff' : C.ink }}>{tier.name}</h3>
-              <p className="mt-2 mb-1 text-4xl italic font-drama" style={{ color: C.signal }}>{tier.price}</p>
-              <p className="mb-6 text-sm" style={{ color: tier.primary ? 'rgba(255,255,255,0.5)' : 'rgba(17,17,17,0.5)' }}>{tier.desc}</p>
-              <ul className="mb-8 space-y-3">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm" style={{ color: tier.primary ? 'rgba(255,255,255,0.7)' : 'rgba(17,17,17,0.6)' }}>
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: C.signal }} />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <a href="tel:6625971268" className="btn-magnetic block rounded-[2rem] px-6 py-3 text-center text-sm font-bold" style={{
-                backgroundColor: tier.primary ? C.signal : 'transparent',
-                color: tier.primary ? '#fff' : C.ink,
-                border: tier.primary ? 'none' : `2px solid ${C.paper}`,
-              }}>
-                <span className="btn-bg rounded-[2rem]" style={{ backgroundColor: tier.primary ? C.signalDark : C.paper }} />
-                <span className="relative z-10">Book a Pickup</span>
-              </a>
-            </div>
-          ))}
+
+        <div className="pricing-anim invisible overflow-hidden rounded-[2rem] border p-6 md:p-10" style={{ borderColor: C.paper, backgroundColor: C.offwhite }}>
+          {/* Header row */}
+          <div className="mb-4 flex items-center justify-between border-b pb-3" style={{ borderColor: C.paper }}>
+            <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>Volume</span>
+            <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>Price</span>
+          </div>
+
+          {/* Rows */}
+          <div className="grid gap-1 md:grid-cols-2 md:gap-x-10">
+            {PRICE_TIERS.map((t) => (
+              <div
+                key={t.label}
+                className="pricing-anim invisible flex items-center justify-between rounded-[1rem] px-4 py-3 transition-colors duration-300 hover:bg-white"
+                style={t.popular ? { backgroundColor: '#fff', boxShadow: `inset 0 0 0 2px ${C.signal}` } : {}}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-bold font-mono" style={{ color: C.ink }}>{t.label}</span>
+                  {t.popular && (
+                    <span className="rounded-full px-2 py-0.5 text-[9px] font-bold tracking-widest text-white font-mono" style={{ backgroundColor: C.signal }}>
+                      POPULAR
+                    </span>
+                  )}
+                </div>
+                <span className="text-lg font-bold font-drama italic" style={{ color: C.signal }}>
+                  ${t.price}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA buttons */}
+        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a
+            href="tel:6625971268"
+            className="btn-magnetic inline-flex items-center justify-center gap-2 rounded-[2rem] px-8 py-4 text-sm font-bold text-white"
+            style={{ backgroundColor: C.signal }}
+          >
+            <span className="btn-bg rounded-[2rem]" style={{ backgroundColor: C.signalDark }} />
+            <Phone size={16} className="relative z-10" />
+            <span className="relative z-10">Book a Pickup</span>
+          </a>
+          <a
+            href="mailto:Contact@RebelHauling.com?subject=Free%20Quote%20Request"
+            className="btn-magnetic inline-flex items-center justify-center gap-2 rounded-[2rem] px-8 py-4 text-sm font-bold text-white"
+            style={{ backgroundColor: C.navy }}
+          >
+            <span className="btn-bg rounded-[2rem]" style={{ backgroundColor: C.navyDark }} />
+            <Mail size={16} className="relative z-10" />
+            <span className="relative z-10">Get a Free Quote</span>
+          </a>
         </div>
       </div>
     </section>
@@ -749,15 +1016,35 @@ function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-16 grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <h3 className="mb-3 text-2xl font-bold tracking-tight text-white font-heading">REBEL HAULING</h3>
+            <div className="mb-4 flex items-center gap-3">
+              <img src="/Logo.png" alt="Rebel Hauling" className="h-12 w-auto" />
+              <h3 className="text-2xl font-bold tracking-tight text-white font-heading">REBEL HAULING</h3>
+            </div>
             <p className="max-w-sm text-sm leading-relaxed text-white/40">
               Fast, reliable, and affordable junk removal for residential, commercial, and student housing clients across Lafayette County, MS and Greene County, MO.
             </p>
-            <a href="tel:6625971268" className="btn-magnetic mt-6 inline-flex items-center gap-2 rounded-[2rem] px-6 py-3 text-sm font-bold text-white" style={{ backgroundColor: C.signal }}>
-              <span className="btn-bg rounded-[2rem]" style={{ backgroundColor: C.signalDark }} />
-              <Phone size={14} className="relative z-10" />
-              <span className="relative z-10">(662) 597-1268</span>
-            </a>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="tel:6625971268" className="btn-magnetic inline-flex items-center gap-2 rounded-[2rem] px-5 py-3 text-sm font-bold text-white" style={{ backgroundColor: C.signal }}>
+                <span className="btn-bg rounded-[2rem]" style={{ backgroundColor: C.signalDark }} />
+                <Phone size={14} className="relative z-10" />
+                <span className="relative z-10">(662) 597-1268</span>
+              </a>
+              <a href="mailto:Contact@RebelHauling.com" className="btn-magnetic inline-flex items-center gap-2 rounded-[2rem] px-5 py-3 text-sm font-bold text-white" style={{ backgroundColor: C.navy }}>
+                <span className="btn-bg rounded-[2rem]" style={{ backgroundColor: C.navyDark }} />
+                <Mail size={14} className="relative z-10" />
+                <span className="relative z-10">Contact@RebelHauling.com</span>
+              </a>
+            </div>
+
+            {/* Social */}
+            <div className="mt-6 flex items-center gap-3">
+              <a href="https://www.instagram.com/rebelhauling" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="link-lift flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-white hover:text-white">
+                <InstagramIcon size={16} />
+              </a>
+              <a href="https://www.facebook.com/people/Rebel-Hauling/61580227204039/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="link-lift flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-white hover:text-white">
+                <FacebookIcon size={16} />
+              </a>
+            </div>
           </div>
 
           <div>
@@ -767,6 +1054,7 @@ function Footer() {
                 { label: 'Services', href: '#services' },
                 { label: 'About', href: '#about' },
                 { label: 'How It Works', href: '#protocol' },
+                { label: 'Reviews', href: '#testimonials' },
                 { label: 'Pricing', href: '#pricing' },
               ].map((l) => (
                 <li key={l.label}>
@@ -788,6 +1076,7 @@ function Footer() {
                 Greene County, MO
               </li>
             </ul>
+            <img src="/Logo.png" alt="Rebel Hauling" className="mt-8 h-36 w-auto opacity-90" />
           </div>
         </div>
 
@@ -813,6 +1102,7 @@ export default function App() {
       <Features />
       <AboutUs />
       <Protocol />
+      <Testimonials />
       <Pricing />
       <Footer />
     </>
