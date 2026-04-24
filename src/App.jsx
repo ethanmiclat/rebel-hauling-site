@@ -142,21 +142,21 @@ function Hero() {
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80)' }} />
       <div className="hero-gradient absolute inset-0" />
 
-      <div className="relative z-10 w-full max-w-5xl px-6 pb-16 md:px-16 md:pb-24">
+      <div className="relative z-10 w-full max-w-5xl px-5 pb-12 sm:px-6 sm:pb-16 md:px-16 md:pb-24">
         <h1 className="mb-4">
-          <span className="hero-anim invisible block text-4xl font-bold leading-[1.1] tracking-tight text-white font-heading md:text-6xl lg:text-7xl">
+          <span className="hero-anim invisible block text-3xl font-bold leading-[1.1] tracking-tight text-white font-heading sm:text-4xl md:text-6xl lg:text-7xl">
             Haul the
           </span>
-          <span className="hero-anim invisible block text-6xl italic leading-[0.95] font-drama md:text-8xl lg:text-[10rem]" style={{ color: C.signal }}>
+          <span className="hero-anim invisible block text-[3.5rem] italic leading-[0.95] font-drama sm:text-6xl md:text-8xl lg:text-[10rem]" style={{ color: C.signal }}>
             Junk.
           </span>
         </h1>
 
-        <p className="hero-anim invisible max-w-xl text-base text-white/70 font-heading md:text-xl" style={{ letterSpacing: '-0.02em', marginBottom: '2rem' }}>
+        <p className="hero-anim invisible max-w-xl text-sm text-white/70 font-heading sm:text-base md:text-xl" style={{ letterSpacing: '-0.02em', marginBottom: '2rem' }}>
           Fast, affordable junk removal and hauling by two university operators who know Oxford and Springfield inside out. Priced by load — no surprises.
         </p>
 
-        <a href="tel:6625971268" className="hero-anim invisible btn-magnetic inline-flex items-center gap-3 rounded-[2rem] px-8 py-4 text-lg font-bold text-white" style={{ backgroundColor: C.signal }}>
+        <a href="tel:6625971268" className="hero-anim invisible btn-magnetic inline-flex items-center gap-2 rounded-[2rem] px-6 py-3 text-base font-bold text-white sm:gap-3 sm:px-8 sm:py-4 sm:text-lg" style={{ backgroundColor: C.signal }}>
           <span className="btn-bg rounded-[2rem]" style={{ backgroundColor: C.signalDark }} />
           <Truck size={20} className="relative z-10" />
           <span className="relative z-10">Book a Pickup</span>
@@ -199,7 +199,7 @@ function ShufflerCard() {
   }, []);
 
   return (
-    <div className="rounded-[2rem] border border-paper bg-offwhite p-8">
+    <div className="rounded-[2rem] border border-paper bg-offwhite p-6 md:p-8">
       <p className="text-xl font-bold tracking-tight text-ink font-heading">Load-Size Pricing</p>
       <p className="mt-1 text-sm text-ink/50">Transparent rates — pay only for what you fill.</p>
       <div className="relative mt-6" style={{ height: 180 }}>
@@ -237,7 +237,7 @@ function TrustCard() {
   }, []);
 
   return (
-    <div className="rounded-[2rem] border border-paper bg-offwhite p-8">
+    <div className="rounded-[2rem] border border-paper bg-offwhite p-6 md:p-8">
       <p className="text-xl font-bold tracking-tight text-ink font-heading">Fast &amp; Reliable</p>
       <p className="mt-1 text-sm text-ink/50">Multi-year operators. Same-day service available.</p>
       <div className="mt-6 space-y-2.5" style={{ height: 230 }}>
@@ -300,7 +300,7 @@ function ScopeCard() {
   const Icon = current.icon;
 
   return (
-    <div className="rounded-[2rem] border border-paper bg-offwhite p-8">
+    <div className="rounded-[2rem] border border-paper bg-offwhite p-6 md:p-8">
       <p className="text-xl font-bold tracking-tight text-ink font-heading">No Project Too Big or Small</p>
       <p className="mt-1 text-sm text-ink/50">From a single chair to a full estate clearout.</p>
 
@@ -352,7 +352,7 @@ function Features() {
   }, []);
 
   return (
-    <section id="services" ref={ref} className="px-6 py-24 md:px-16 md:py-32">
+    <section id="services" ref={ref} className="px-5 py-16 sm:px-6 sm:py-24 md:px-16 md:py-32">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12">
           <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>What We Do</span>
@@ -388,7 +388,7 @@ function AboutUs() {
   }, []);
 
   return (
-    <section id="about" ref={ref} className="relative overflow-hidden px-6 py-28 md:px-16 md:py-40" style={{ backgroundColor: C.ink }}>
+    <section id="about" ref={ref} className="relative overflow-hidden px-5 py-20 sm:px-6 sm:py-28 md:px-16 md:py-40" style={{ backgroundColor: C.ink }}>
       <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80)' }} />
 
       <div className="relative z-10 mx-auto max-w-5xl">
@@ -424,7 +424,7 @@ function AboutUs() {
               bio: 'From Springfield, Missouri. I am a Sophomore at the University of Mississippi studying for a degree in Finance. Prior experience working and managing a junk removal company, as well as a job in professional moving. I specialize in business marketing and communications!',
             },
           ].map((person) => (
-            <div key={person.name} className="flex flex-col items-center rounded-[2rem] border border-white/10 p-8 text-center" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+            <div key={person.name} className="flex flex-col items-center rounded-[2rem] border border-white/10 p-6 text-center md:p-8" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
               <div className="mb-6 h-36 w-36 overflow-hidden rounded-full border-2" style={{ borderColor: C.signal }}>
                 <img src={person.img} alt={person.name} className="h-full w-full object-cover" style={{ objectPosition: person.pos }} />
               </div>
@@ -591,8 +591,8 @@ function Protocol() {
   }, []);
 
   return (
-    <section id="protocol" ref={ref} className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6 md:px-16">
+    <section id="protocol" ref={ref} className="py-16 sm:py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 md:px-16">
         <div className="mb-12 text-center">
           <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>How It Works</span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight font-heading md:text-5xl" style={{ color: C.navy }}>
@@ -602,10 +602,10 @@ function Protocol() {
         </div>
 
         <div className="flex items-center justify-center gap-4 md:gap-8">
-          {/* Left arrow */}
+          {/* Left arrow — hidden on mobile, shown below card */}
           <button
             onClick={goPrev}
-            className="btn-magnetic flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 md:h-14 md:w-14"
+            className="btn-magnetic hidden h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 md:flex md:h-14 md:w-14"
             style={{ borderColor: C.paper, color: C.ink, backgroundColor: '#fff' }}
             aria-label="Previous step"
           >
@@ -622,24 +622,44 @@ function Protocol() {
               }}
             >
               {STEPS.map((s) => (
-                <div key={s.num} className="flex h-full w-full shrink-0 flex-col items-center justify-between gap-4 p-8 md:p-10">
+                <div key={s.num} className="flex h-full w-full shrink-0 flex-col items-center justify-between gap-3 p-5 sm:p-8 md:gap-4 md:p-10">
                   <div className="w-full text-center">
-                    <span className="text-xs tracking-widest font-mono" style={{ color: C.signal }}>STEP {s.num}</span>
-                    <h3 className="mt-2 text-2xl font-bold tracking-tight font-heading md:text-3xl" style={{ color: C.navy }}>{s.title}</h3>
+                    <span className="text-[10px] tracking-widest font-mono sm:text-xs" style={{ color: C.signal }}>STEP {s.num}</span>
+                    <h3 className="mt-1 text-lg font-bold tracking-tight font-heading sm:mt-2 sm:text-2xl md:text-3xl" style={{ color: C.navy }}>{s.title}</h3>
                   </div>
                   <div className="flex flex-1 items-center justify-center">
                     <s.Anim />
                   </div>
-                  <p className="max-w-sm text-center text-sm leading-relaxed text-ink/60 md:text-base">{s.desc}</p>
+                  <p className="max-w-sm text-center text-xs leading-relaxed text-ink/60 sm:text-sm md:text-base">{s.desc}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right arrow */}
+          {/* Right arrow — hidden on mobile, shown below card */}
           <button
             onClick={goNext}
-            className="btn-magnetic flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white md:h-14 md:w-14"
+            className="btn-magnetic hidden h-12 w-12 shrink-0 items-center justify-center rounded-full text-white md:flex md:h-14 md:w-14"
+            style={{ backgroundColor: C.signal }}
+            aria-label="Next step"
+          >
+            <ChevronRight size={22} />
+          </button>
+        </div>
+
+        {/* Mobile arrows — shown below card on mobile only */}
+        <div className="mt-6 flex items-center justify-center gap-6 md:hidden">
+          <button
+            onClick={goPrev}
+            className="btn-magnetic flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2"
+            style={{ borderColor: C.paper, color: C.ink, backgroundColor: '#fff' }}
+            aria-label="Previous step"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            onClick={goNext}
+            className="btn-magnetic flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
             style={{ backgroundColor: C.signal }}
             aria-label="Next step"
           >
@@ -648,7 +668,7 @@ function Protocol() {
         </div>
 
         {/* Step indicators */}
-        <div className="mt-8 flex justify-center gap-2">
+        <div className="mt-6 flex justify-center gap-2 md:mt-8">
           {STEPS.map((_, i) => (
             <button
               key={i}
@@ -743,7 +763,7 @@ function Testimonials() {
   };
 
   return (
-    <section id="testimonials" ref={ref} className="px-6 py-24 md:px-16 md:py-32" style={{ backgroundColor: C.offwhite }}>
+    <section id="testimonials" ref={ref} className="px-5 py-16 sm:px-6 sm:py-24 md:px-16 md:py-32" style={{ backgroundColor: C.offwhite }}>
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 text-center">
           <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>Testimonials</span>
@@ -758,7 +778,7 @@ function Testimonials() {
           {REVIEWS.map((r) => (
             <div
               key={r.name}
-              className="review-card invisible flex flex-col rounded-[2rem] border bg-white p-8"
+              className="review-card invisible flex flex-col rounded-[2rem] border bg-white p-6 md:p-8"
               style={{ borderColor: C.paper }}
             >
               <Quote size={28} style={{ color: C.signal }} className="mb-4 shrink-0" />
@@ -806,7 +826,7 @@ function Testimonials() {
             <form
               ref={formInnerRef}
               onSubmit={handleSend}
-              className="mt-6 w-full rounded-[2rem] border bg-white p-8 md:p-10"
+              className="mt-6 w-full rounded-[2rem] border bg-white p-6 sm:p-8 md:p-10"
               style={{ borderColor: C.paper }}
             >
               <div className="mb-6 flex items-start justify-between gap-4">
@@ -937,7 +957,7 @@ function Pricing() {
   }, []);
 
   return (
-    <section id="pricing" ref={ref} className="px-6 py-24 md:px-16 md:py-32">
+    <section id="pricing" ref={ref} className="px-5 py-16 sm:px-6 sm:py-24 md:px-16 md:py-32">
       <div className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
           <span className="text-xs uppercase tracking-widest font-mono" style={{ color: C.navy }}>Pricing</span>
@@ -1012,7 +1032,7 @@ function Pricing() {
    ═══════════════════════════════════════════ */
 function Footer() {
   return (
-    <footer id="footer" className="px-6 pt-16 pb-8 md:px-16" style={{ backgroundColor: C.ink, borderRadius: '4rem 4rem 0 0' }}>
+    <footer id="footer" className="px-5 pt-14 pb-8 sm:px-6 sm:pt-16 md:px-16" style={{ backgroundColor: C.ink, borderRadius: '4rem 4rem 0 0' }}>
       <div className="mx-auto max-w-6xl">
         <div className="mb-16 grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
