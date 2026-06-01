@@ -139,7 +139,7 @@ function Hero() {
 
   return (
     <section ref={ref} className="hero-select relative flex w-full items-end" style={{ minHeight: '100dvh' }}>
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80)' }} />
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/LandingPage.png)' }} />
       <div className="hero-gradient absolute inset-0" />
 
       <div className="relative z-10 w-full max-w-5xl px-5 pb-12 sm:px-6 sm:pb-16 md:px-16 md:pb-24">
